@@ -1,17 +1,6 @@
 const { GraphQLServer } = require("graphql-yoga");
 // schema definition
-const typeDefs = `
-type Query{
-    info:String!
-    feed:[Link!]!
-}
-
-type Link{
-    id:ID!
-    description:String!
-    url:String!
-}
-`;
+const typeDefs = "./src/schema.graphql";
 //dummy data
 let links = [
   {
@@ -22,17 +11,34 @@ let links = [
 ];
 
 // resolvers for requests
+let idCount = links.length;
 const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
     // 2
     feed: () => links,
   },
-  // 3
-  Link: {
-    id: (parent) => parent.id,
-    description: (parent) => parent.description,
-    url: (parent) => parent.url,
+  Mutation: {
+    post: (parent, args) => {
+      const link = {
+        id: `link-${idCount++}`,
+        description: args.description,
+        url: args.url,
+      };
+      links.push(link);
+      return link;
+    },
+    updateLink:(parent,args)=>{
+        let theLink=links.find((item,index)=>item.id===args.id)
+        let lIndex=links.indexOf(theLink)
+        const link = {
+            id: theLink.id,
+            description: args.description,
+            url: args.url,
+          };
+          links.splice(lIndex,1,link)
+
+    },
   },
 };
 
