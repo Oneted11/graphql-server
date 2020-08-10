@@ -28,16 +28,15 @@ const resolvers = {
       links.push(link);
       return link;
     },
-    updateLink:(parent,args)=>{
-        let theLink=links.find((item,index)=>item.id===args.id)
-        let lIndex=links.indexOf(theLink)
-        const link = {
-            id: theLink.id,
-            description: args.description,
-            url: args.url,
-          };
-          links.splice(lIndex,1,link)
-
+    updateLink: (parent, args) => {
+      let theLink = links.find((item, index) => item.id === args.id);
+      let lIndex = links.indexOf(theLink);
+      const link = {
+        id: theLink.id,
+        description: args.description,
+        url: args.url,
+      };
+      links.splice(lIndex, 1, link);
     },
   },
 };
