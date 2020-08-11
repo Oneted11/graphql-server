@@ -1,4 +1,5 @@
 const { GraphQLServer } = require("graphql-yoga");
+const { PrismaClient } = require("@prisma/client");
 // schema definition
 const typeDefs = "./src/schema.graphql";
 //dummy data
@@ -36,17 +37,17 @@ const resolvers = {
         description: args.description,
         url: args.url,
       };
-      links.splice(lIndex, 1, link) ;
+      links.splice(lIndex, 1, link);
     },
     deleteLink: (parent, args) => {
       let theLink = links.find((item, index) => item.id === args.id);
       let lIndex = links.indexOf(theLink);
-      links.splice(lIndex,1)
+      links.splice(lIndex, 1);
     },
   },
 };
 
-const server = new GraphQLServer({ typeDefs, resolvers });
+const server = new GraphQLServer({ typeDefs, resolvers, context: { prisma } });
 server.start(() => {
   console.log(`server is running on http://localhost:4000`);
 });

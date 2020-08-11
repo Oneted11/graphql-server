@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/Oneted11/graphql-server#readme",
   "dependencies": {
+    "@prisma/client": "2.4.1",
     "graphql-yoga": "^1.18.3"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.4.1",
+    "@prisma/cli": "2.4.1",
     "nodemon": "^2.0.4"
   }
 }
