@@ -17,17 +17,19 @@ const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
     // 2
-    feed: () => links,
+    feed: () => async (parent, args, context) => {
+      return context.prisma.link.findmany();
+    },
   },
   Mutation: {
-    post: (parent, args) => {
-      const link = {
-        id: `link-${idCount++}`,
-        description: args.description,
-        url: args.url,
-      };
-      links.push(link);
-      return link;
+    post: (parent, args, context, info) => {
+      const newLink = context.prisma.link.create({
+        data: {
+          description: args.description,
+          url: args.url,
+        },
+      });
+      return newLink;
     },
     updateLink: (parent, args) => {
       let theLink = links.find((item, index) => item.id === args.id);
