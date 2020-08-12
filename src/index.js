@@ -2,23 +2,24 @@ const { GraphQLServer } = require("graphql-yoga");
 const { PrismaClient } = require("@prisma/client");
 // schema definition
 const typeDefs = "./src/schema.graphql";
+const prisma=new PrismaClient()
 //dummy data
-let links = [
-  {
-    id: "link-0",
-    url: "www.howtographql.com",
-    description: "Fullstack tutorial for GraphQL",
-  },
-];
+// let links = [
+//   {
+//     id: "link-0",
+//     url: "www.howtographql.com",
+//     description: "Fullstack tutorial for GraphQL",
+//   },
+// ];
 
 // resolvers for requests
-let idCount = links.length;
+// let idCount = links.length;
 const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
     // 2
-    feed: () => async (parent, args, context) => {
-      return context.prisma.link.findmany();
+    feed: async (parent, args, context,info) => {
+      return context.prisma.link.findMany()
     },
   },
   Mutation: {
